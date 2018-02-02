@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Example</title>
+<style media="screen">
+input{
+    border: 1px solid #ccc;
+    height: 30px;
+    line-height: 28px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+input[type='submit']{
+    cursor: pointer;
+}
+input[type='submit']:hover{
+    background: #333;
+    border-color: #333;
+    color: white;
+}
+#loading{
+    visibility: hidden;
+}
+</style>
+</head>
+<body>
+
+<form id="my_form">
+    <input type="file" name="image" id="input_file">
+    <input type="submit" value="Upload">
+    <strong id="loading">Please Wait ...</strong>
+</form>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$('#my_form').on('submit', function(e){
+
+    e.preventDefault();
+
+    if( $('#input_file').prop('files').length > 0 )
+    {
+        $.ajax({
+            url: 'upload.php',
+            method: 'POST',
+            cache: false,
+            contentType: false,
+            processData:false,
+            data: new FormData(this),
+            beforeSend: function(){
+                $('#loading').css('visibility', 'visible');
+            },
+            success: function(response){
+                $('#loading').css('visibility', 'hidden');
+                console.log(response);
+            }
+        });
+    }
+
+});
+
+</script>
+
+</body>
+</html>
